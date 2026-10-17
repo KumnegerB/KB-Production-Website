@@ -1,0 +1,10 @@
+{
+  "description": "This minimal single-page website showcases KB Productions, a software development company, with a focus on clean design, smooth navigation, and professional presentation.",
+  "robots": {
+    "index": false
+  },
+  "accessibility": {
+    "addBypassLinks": false,
+    "ignoreReducedMotion": false
+  }
+}

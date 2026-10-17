@@ -1,0 +1,66 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap');
+@import 'tailwindcss';
+
+@custom-variant dark (&:where(.dark, .dark *));
+
+
+body {
+  font-family: 'Inter Tight', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  background: #fff; color: #000;
+}
+html.dark body { background: #000; color: #fff; }
+
+.reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
+.reveal.in { opacity: 1; transform: none; }
+@media (prefers-reduced-motion: reduce) { .reveal { opacity: 1; transform: none; transition: none; } }
+
+/* Logo entrance: fades in and settles gently into place */
+@keyframes logo-land {
+  from { opacity: 0; transform: translateY(-40px) scale(1.04); filter: blur(6px); }
+  60% { filter: blur(0); }
+  to { opacity: 1; transform: none; filter: none; } /* none: don't leave a filter layer on the logo */
+}
+.logo-land { animation: logo-land 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
+@media (prefers-reduced-motion: reduce) { .logo-land { animation: none; } }
+
+/* Soft glow behind the logo on hover: dark in light mode, white in dark mode */
+.logo-glow {
+  --glow: rgb(17 17 17 / 0.18); /* #111111 */
+  /* Multi-stop falloff stays soft without an expensive blur filter */
+  background: radial-gradient(
+    closest-side,
+    var(--glow) 0%,
+    color-mix(in srgb, var(--glow) 55%, transparent) 40%,
+    color-mix(in srgb, var(--glow) 18%, transparent) 70%,
+    transparent 100%
+  );
+  transform: scale(0.7);
+  opacity: 0;
+  transition: opacity 1.2s ease, transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+html.dark .logo-glow { --glow: rgb(255 255 255 / 0.28); }
+.group:hover .logo-glow { opacity: 1; transform: scale(1.7); }
+
+/* Slow, smooth theme switch (class is added briefly by the toggle) */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 1.5s ease,
+    color 1.5s ease,
+    border-color 1.5s ease,
+    filter 1.5s ease !important;
+}
+
+/* Scroll cue: fades in after the logo lands, arrow slides down on a loop */
+.scroll-cue { animation: cue-in 1s ease 2s both; }
+@keyframes cue-in { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: none; } }
+.scroll-cue-arrow { animation: cue-arrow 2.4s cubic-bezier(0.65, 0, 0.35, 1) infinite; }
+@keyframes cue-arrow {
+  0% { transform: translateY(-100%); opacity: 0; }
+  35%, 65% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(100%); opacity: 0; }
+}
+@media (prefers-reduced-motion: reduce) { .scroll-cue, .scroll-cue-arrow { animation: none; } }
