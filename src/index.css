@@ -24,23 +24,58 @@ html.dark body { background: #000; color: #fff; }
 .logo-land { animation: logo-land 1.6s cubic-bezier(0.16, 1, 0.3, 1) 0.2s both; }
 @media (prefers-reduced-motion: reduce) { .logo-land { animation: none; } }
 
-/* Soft glow behind the logo on hover: dark in light mode, white in dark mode */
+/* Dynamic soft ambient glow behind the logo spreading evenly across the hero section */
 .logo-glow {
-  --glow: rgb(17 17 17 / 0.18); /* #111111 */
-  /* Multi-stop falloff stays soft without an expensive blur filter */
+  /* Light theme: soft, even prismatic watercolor tones */
+  --glow-1: rgba(147, 130, 240, 0.16);
+  --glow-2: rgba(244, 114, 182, 0.12);
+  --glow-3: rgba(56, 189, 248, 0.07);
+  --glow-ambient: rgba(236, 72, 153, 0.02);
+
+  width: 140vmax;
+  height: 140vmax;
+  min-width: 900px;
+  min-height: 900px;
+  border-radius: 9999px;
   background: radial-gradient(
-    closest-side,
-    var(--glow) 0%,
-    color-mix(in srgb, var(--glow) 55%, transparent) 40%,
-    color-mix(in srgb, var(--glow) 18%, transparent) 70%,
-    transparent 100%
+    circle at center,
+    var(--glow-1) 0%,
+    var(--glow-2) 30%,
+    var(--glow-3) 55%,
+    var(--glow-ambient) 72%,
+    transparent 88%
   );
-  transform: scale(0.7);
   opacity: 0;
-  transition: opacity 1.2s ease, transform 1.8s cubic-bezier(0.16, 1, 0.3, 1);
+  transform: translate(-50%, -50%) scale(0.92);
+  animation: glow-chroma 14s linear infinite;
+  transition:
+    opacity 1.1s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 1.4s cubic-bezier(0.16, 1, 0.3, 1);
+  will-change: transform, opacity, filter;
 }
-html.dark .logo-glow { --glow: rgb(255 255 255 / 0.28); }
-.group:hover .logo-glow { opacity: 1; transform: scale(1.7); }
+
+/* Dark theme: smooth, diffuse auroral atmosphere without harsh center hotspot */
+html.dark .logo-glow {
+  --glow-1: rgba(129, 140, 248, 0.28);
+  --glow-2: rgba(167, 139, 250, 0.20);
+  --glow-3: rgba(96, 165, 250, 0.10);
+  --glow-ambient: rgba(192, 132, 252, 0.025);
+}
+
+.group:hover .logo-glow {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(1);
+}
+
+@keyframes glow-chroma {
+  0% {
+    filter: hue-rotate(0deg);
+  }
+  100% {
+    filter: hue-rotate(360deg);
+  }
+}
+@media (prefers-reduced-motion: reduce) { .logo-glow { animation: none; } }
 
 /* Slow, smooth theme switch (class is added briefly by the toggle) */
 html.theme-transition,
