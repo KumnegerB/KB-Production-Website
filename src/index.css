@@ -1,15 +1,35 @@
-@import url('https://fonts.googleapis.com/css2?family=Inter+Tight:wght@300;400;500;600&display=swap');
+@import url('https://api.fontshare.com/v2/css?f[]=satoshi@300,400,500,700,900&f[]=general-sans@300,400,500,600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Inter:wght@300;400;500;600&display=swap');
 @import 'tailwindcss';
+
+@theme {
+  --font-display: 'Satoshi', system-ui, -apple-system, sans-serif;
+  --font-sans: 'General Sans', 'Inter', system-ui, -apple-system, sans-serif;
+  --font-script: 'Great Vibes', cursive;
+}
 
 @custom-variant dark (&:where(.dark, .dark *));
 
-
 body {
-  font-family: 'Inter Tight', system-ui, sans-serif;
+  font-family: 'General Sans', 'Inter', system-ui, -apple-system, sans-serif;
   -webkit-font-smoothing: antialiased;
   background: #fff; color: #000;
 }
 html.dark body { background: #000; color: #fff; }
+
+/* Section titles and prominent headings use Satoshi */
+h1, h2, h3, h4, .font-display, .font-title {
+  font-family: 'Satoshi', system-ui, -apple-system, sans-serif;
+  letter-spacing: -0.025em;
+}
+
+/* Great Vibes cursive script font */
+.font-script, .great-vibes-regular, .font-vibes {
+  font-family: 'Great Vibes', cursive;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: 0;
+}
 
 .reveal { opacity: 0; transform: translateY(24px); transition: opacity .9s ease, transform .9s ease; }
 .reveal.in { opacity: 1; transform: none; }
@@ -99,3 +119,52 @@ html.theme-transition *::after {
   100% { transform: translateY(100%); opacity: 0; }
 }
 @media (prefers-reduced-motion: reduce) { .scroll-cue, .scroll-cue-arrow { animation: none; } }
+
+/* Calm, subtle floating animations for tech stack icons */
+@keyframes float-1 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-8px) rotate(1.2deg);
+  }
+}
+
+@keyframes float-2 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-11px) rotate(-1.5deg);
+  }
+}
+
+@keyframes float-3 {
+  0%, 100% {
+    transform: translateY(0px) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-6px) rotate(0.8deg);
+  }
+}
+
+.animate-float-1 {
+  animation: float-1 ease-in-out infinite;
+}
+
+.animate-float-2 {
+  animation: float-2 ease-in-out infinite;
+}
+
+.animate-float-3 {
+  animation: float-3 ease-in-out infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .animate-float-1,
+  .animate-float-2,
+  .animate-float-3 {
+    animation: none;
+  }
+}
+
